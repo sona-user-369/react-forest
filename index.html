@@ -6,11 +6,21 @@
 </head>
 <body>
 
+<div>
+    <div id="app"></div>
+</div>
 
 
 <script src="react.js"></script>
 <script src="react-dom.js"></script>
 <script src="babel.js"></script>
 <script type="text/babel" src="table-component.js"></script>
+<script>
+    ReactDOM.render(
+        <TableComponent headers={headers}></TableComponent>,
+
+        document.getElementById('app'),
+    )
+</script>
 </body>
 </html>
