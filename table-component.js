@@ -28,15 +28,72 @@ const data = [
 
 class TableComponent extends React.Component{
 
+    constructor(props) {
+        super();
+        this.state = {
+            data: props.initialData,
+            sortCol: null,
+            descending: false
+        };
+        this.onColumnClick = this.onColumnClick.bind(this);
+    }
+
+    onColumnClick(e){
+        const data = JSON.parse(JSON.stringify(this.state.data)) ;
+        const column = e.target.cellIndex ;
+        var desc = this.state.descending
+        data.sort((a,b) => {
+            if(a[column] === b[column]) {
+                return 0;
+            }
+            if(a[column] > b[column]){
+                desc = false
+                return 1;
+            }
+            desc = true ;
+            return  -1 ;
+        })
+
+        this.setState({
+            data,
+            sortCol: column,
+            descending: desc
+        });
+    }
+
     render(){
-        const headers = []
-        for(const title of this.props.headers){
-            headers.push(<th>{title}</th>);
-        }
-        return <table>
-            <thead>
-            {headers}
+
+        return (<table>
+            <thead onClick={this.onColumnClick} >
+            <tr>
+                {this.props.headers.map(
+                    (title,idx) => (<th  key={idx}>{title}</th>)
+                )
+                }
+            </tr>
             </thead>
-        </table>
+            <tbody>
+            {this.state.data.map(
+                (row,idx) => (
+                    <tr key={idx}>
+                        {
+                            row.map((cell, idx) => (
+                                <td key={idx}>
+                                    {cell}
+                                </td>
+                            ))
+                        }
+                    </tr>
+                )
+            )}
+            </tbody>
+        </table>);
     }
 }
+
+// TableComponent.propTypes = {
+//     headers: PropTypes.array(PropTypes.string),
+//     initialData: PropTypes.array(PropTypes.array(PropTypes.string))
+// }
+//
+// PropTypes.checkPropTypes(TableComponent.propTypes, TableComponent.)

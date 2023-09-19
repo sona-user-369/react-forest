@@ -14,10 +14,11 @@
 <script src="react.js"></script>
 <script src="react-dom.js"></script>
 <script src="babel.js"></script>
-<script type="text/babel" src="table-component.js" ></script>
+<script src="prop-types.js"></script>
+<script type="text/babel" src="table-component.js?v=1"></script>
 <script type="text/babel">
     ReactDOM.render(
-        <TableComponent headers={headers}></TableComponent>,
+        <TableComponent headers={headers} initialData={data}/>,
 
         document.getElementById('app'),
     )
