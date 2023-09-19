@@ -81,7 +81,7 @@ class TableComponent extends React.Component{
                 }
             </tr>
             </thead>
-            <tbody>
+            <tbody onDoubleClick={this.showEditor}>
             {this.state.data.map(
                 (row,idx) => (
                     <tr key={idx}>
