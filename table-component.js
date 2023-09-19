@@ -46,7 +46,13 @@ class TableComponent extends React.Component{
             if(a[column] === b[column]) {
                 return 0;
             }
-            return a[column] > b[column] ? 1: -1
+            return descending ?
+                 -1:
+                !descending ?
+                    -1:
+                a[column] > b[column] ?
+                    1:
+                    -1
 
         })
 
@@ -64,7 +70,7 @@ class TableComponent extends React.Component{
             <tr>
                 {this.props.headers.map(
                     (title,idx) => (<th  key={idx}>
-                        {this.state.sortCol === idx ? this.state.descending ? title + '\u2191': title + '' : title}
+                        {this.state.sortCol === idx ? this.state.descending ? title + ' \u2191': title + ' \u2193' : title}
                     </th>)
                 )
                 }
