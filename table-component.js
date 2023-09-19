@@ -36,6 +36,7 @@ class TableComponent extends React.Component{
             descending: false
         };
         this.onColumnClick = this.onColumnClick.bind(this);
+        this.showEditor = this.showEditor.bind(this);
     }
 
     onColumnClick(e){
@@ -61,6 +62,10 @@ class TableComponent extends React.Component{
             sortCol: column,
             descending,
         });
+    }
+
+    showEditor(e){
+
     }
 
     render(){
