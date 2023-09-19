@@ -41,23 +41,19 @@ class TableComponent extends React.Component{
     onColumnClick(e){
         const data = JSON.parse(JSON.stringify(this.state.data)) ;
         const column = e.target.cellIndex ;
-        var desc = this.state.descending
+        const descending = this.state.sortCol === column && !this.state.descending ;
         data.sort((a,b) => {
             if(a[column] === b[column]) {
                 return 0;
             }
-            if(a[column] > b[column]){
-                desc = false
-                return 1;
-            }
-            desc = true ;
-            return  -1 ;
+            return a[column] > b[column] ? 1: -1
+
         })
 
         this.setState({
             data,
             sortCol: column,
-            descending: desc
+            descending,
         });
     }
 
@@ -67,7 +63,9 @@ class TableComponent extends React.Component{
             <thead onClick={this.onColumnClick} >
             <tr>
                 {this.props.headers.map(
-                    (title,idx) => (<th  key={idx}>{title}</th>)
+                    (title,idx) => (<th  key={idx}>
+                        {this.state.sortCol === idx ? this.state.descending ? title + '\u2191': title + '' : title}
+                    </th>)
                 )
                 }
             </tr>
