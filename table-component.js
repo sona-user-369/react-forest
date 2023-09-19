@@ -33,7 +33,8 @@ class TableComponent extends React.Component{
         this.state = {
             data: props.initialData,
             sortCol: null,
-            descending: false
+            descending: false,
+            edit: {}
         };
         this.onColumnClick = this.onColumnClick.bind(this);
         this.showEditor = this.showEditor.bind(this);
@@ -65,7 +66,11 @@ class TableComponent extends React.Component{
     }
 
     showEditor(e){
+        this.setState({
+            edit: {
 
+            }
+        })
     }
 
     render(){
