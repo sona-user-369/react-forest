@@ -36,10 +36,12 @@ class TableComponent extends React.Component{
             data: props.initialData,
             sortCol: null,
             descending: false,
-            edit: {}
+            edit: null,
+            valueChange: null
         };
         this.onColumnClick = this.onColumnClick.bind(this);
         this.showEditor = this.showEditor.bind(this);
+        this.save = this.save.bind(this);
     }
 
     onColumnClick(e){
@@ -70,8 +72,17 @@ class TableComponent extends React.Component{
     showEditor(e){
         this.setState({
             edit: {
+                row: parseInt(e.target.parentNode.dataset.row, 10),
+                column: e.target.cellIndex
+            },
+            // valueChange: e.target.innerHTML
+        })
+    }
 
-            }
+    save(e){
+        this.setState({
+            valueChange: e.target.value ,
+            edit : null
         })
     }
 
@@ -93,11 +104,18 @@ class TableComponent extends React.Component{
                 (row,idx) => (
                     <tr key={idx}>
                         {
-                            row.map((cell, idx) => (
-                                <td key={idx}>
-                                    {cell}
-                                </td>
-                            ))
+                            row.map((cell, idy) => {
+                                const edit = this.state.edit;
+                                if(edit){
+                                    if(edit.row === idx && edit.column===idy){
+                                       return  (<form onSubmit={this.save}>
+                                           <input type='text' defaultValue={cell}/>
+                                       </form>) ;
+                                    }
+                                }else{
+                                    return (<td key={idy}>{ this.state.valueChange ? this.state.valueChange: cell}</td>)
+                                }
+                        })
                         }
                     </tr>
                 )
