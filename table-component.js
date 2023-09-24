@@ -28,6 +28,7 @@ const data = [
     ],
 ];
 
+
 class TableComponent extends React.Component{
 
     constructor(props) {
