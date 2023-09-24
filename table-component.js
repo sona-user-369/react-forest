@@ -106,7 +106,7 @@ class TableComponent extends React.Component{
                     <tr key={idx}>
                         {
                             row.map((cell, idy) => {
-                                let edit = this.state.edit;
+                                const edit = this.state.edit;
                                 if(edit){
                                     if(edit.row === idx && edit.column===idy){
                                        return  (<form onSubmit={this.save}>
