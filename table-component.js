@@ -125,6 +125,7 @@ class TableComponent extends React.Component{
     }
 }
 
+
 // TableComponent.propTypes = {
 //     headers: PropTypes.array(PropTypes.string),
 //     initialData: PropTypes.array(PropTypes.array(PropTypes.string))
