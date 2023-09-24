@@ -74,7 +74,7 @@ class TableComponent extends React.Component{
         this.setState({
             edit: {
                 row: parseInt(e.target.parentNode.dataset.row, 10),
-                column: e.target.cellIndex
+                column: e.target.cellIndex,
             },
             // valueChange: e.target.innerHTML
         })
@@ -83,7 +83,7 @@ class TableComponent extends React.Component{
     save(e){
         this.setState({
             valueChange: e.target.value ,
-            edit : null
+            edit : null,
         })
     }
 
