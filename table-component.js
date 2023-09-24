@@ -70,6 +70,7 @@ class TableComponent extends React.Component{
         });
     }
 
+
     showEditor(e){
         this.setState({
             edit: {
