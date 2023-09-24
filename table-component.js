@@ -108,7 +108,7 @@ class TableComponent extends React.Component{
                             row.map((cell, idy) => {
                                 const edit = this.state.edit;
                                 if(edit){
-                                    if(edit.row === idx && edit.column===idy){
+                                    if( this.state.edit.row === idx &&  this.state.edit.column===idy){
                                        return  (<form onSubmit={this.save}>
                                            <input type='text' defaultValue={cell}/>
                                        </form>) ;
