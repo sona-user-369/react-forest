@@ -40,10 +40,12 @@ class TableComponent extends React.Component{
             edit: null,
             valueChange: null,
             index: null,
+            search:false,
         };
         this.onColumnClick = this.onColumnClick.bind(this);
         this.showEditor = this.showEditor.bind(this);
         this.save = this.save.bind(this);
+        this.changeSearchState = this.changeSearchState.bind(this);
     }
 
     onColumnClick(e){
@@ -82,6 +84,19 @@ class TableComponent extends React.Component{
         })
     }
 
+
+    changeSearchState(e){
+        e.preventDefault();
+        const search = !this.state.search ;
+        this.setState({
+            search,
+        })
+    }
+
+    onChangeSearch(e){
+
+    }
+
     save(e){
         e.preventDefault();
         const input = e.target.firstChild
@@ -99,44 +114,62 @@ class TableComponent extends React.Component{
         })
     }
 
-    render(){
 
-        return (<table>
-            <thead onClick={this.onColumnClick} >
-            <tr>
-                {this.props.headers.map(
-                    (title,idx) => (<th  key={idx}>
-                        {this.state.sortCol === idx ? this.state.descending ? title + ' \u2191': title + ' \u2193' : title}
-                    </th>)
-                )
-                }
-            </tr>
-            </thead>
-            <tbody onDoubleClick={this.showEditor}>
-            {this.state.data.map(
-                (row,idx) => (
-                    <tr key={idx} data-row={idx}>
-                        {
-                            row.map((cell, idy) => {
-                                const edit = this.state.edit;
-                                const valueChange = this.state.valueChange;
-                                const index = this.state.index ;
-                                if(edit != null){
-                                    if( edit.row === idx && edit.column===idy){
-                                       return  (<td key={idy}><form onSubmit={this.save}>
-                                           <input type='text' defaultValue={cell}/>
-                                       </form></td>);
+
+    render(){
+        const search = this.state.search ;
+        return (<div>
+            <button onClick={this.changeSearchState}>{search ? 'Hide Search' : 'Show Search'}</button>
+            <table>
+                <thead onClick={this.onColumnClick} >
+                <tr>
+                    {this.props.headers.map(
+                        (title,idx) => (<th  key={idx}>
+                            {this.state.sortCol === idx ? this.state.descending ? title + ' \u2191': title + ' \u2193' : title}
+                        </th>)
+                    )
+                    }
+                </tr>
+                </thead>
+                <tbody onDoubleClick={this.showEditor}>
+                {search ? <tr>
+                    {
+                        this.props.headers.map(
+                            (_, idx) => (
+                                <td key={idx}>
+
+                                        <input type='text' defaultValue=''/>
+
+                                </td>
+                            )
+                        )
+                    }
+                </tr> : <tr></tr>}
+                {this.state.data.map(
+                    (row,idx) => (
+                        <tr key={idx} data-row={idx}>
+                            {
+                                row.map((cell, idy) => {
+                                    const edit = this.state.edit;
+                                    const valueChange = this.state.valueChange;
+                                    const index = this.state.index ;
+                                    if(edit != null){
+                                        if( edit.row === idx && edit.column===idy){
+                                            return  (<td key={idy}><form onSubmit={this.save}>
+                                                <input type='text' defaultValue={cell}/>
+                                            </form></td>);
+                                        }
                                     }
-                                }
                                     return (<td key={idy}>{cell}</td>) ;
 
-                        })
-                        }
-                    </tr>
-                )
-            )}
-            </tbody>
-        </table>);
+                                })
+                            }
+                        </tr>
+                    )
+                )}
+                </tbody>
+            </table>
+        </div>);
     }
 }
 
