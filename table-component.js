@@ -38,7 +38,8 @@ class TableComponent extends React.Component{
             sortCol: null,
             descending: false,
             edit: null,
-            valueChange: null
+            valueChange: null,
+            index: null,
         };
         this.onColumnClick = this.onColumnClick.bind(this);
         this.showEditor = this.showEditor.bind(this);
@@ -82,9 +83,19 @@ class TableComponent extends React.Component{
     }
 
     save(e){
+        e.preventDefault();
+        const input = e.target.firstChild
+        const old = JSON.parse(JSON.stringify(this.state.edit)) ;
+        const data = JSON.parse(JSON.stringify(this.state.data));
+        data[old.row][old.column] = input.value
         this.setState({
-            valueChange: e.target.value ,
+            valueChange: input.value ,
             edit : null,
+            data,
+            index: {
+                row: old.row,
+                column: old.column
+            }
         })
     }
 
@@ -104,19 +115,21 @@ class TableComponent extends React.Component{
             <tbody onDoubleClick={this.showEditor}>
             {this.state.data.map(
                 (row,idx) => (
-                    <tr key={idx}>
+                    <tr key={idx} data-row={idx}>
                         {
                             row.map((cell, idy) => {
                                 const edit = this.state.edit;
-                                if(edit){
-                                    if( this.state.edit.row === idx &&  this.state.edit.column===idy){
-                                       return  (<form onSubmit={this.save}>
+                                const valueChange = this.state.valueChange;
+                                const index = this.state.index ;
+                                if(edit != null){
+                                    if( edit.row === idx && edit.column===idy){
+                                       return  (<td key={idy}><form onSubmit={this.save}>
                                            <input type='text' defaultValue={cell}/>
-                                       </form>) ;
+                                       </form></td>);
                                     }
-                                }else{
-                                    return (<td key={idy}>{ this.state.valueChange ? this.state.valueChange: cell}</td>) ;
                                 }
+                                    return (<td key={idy}>{cell}</td>) ;
+
                         })
                         }
                     </tr>
