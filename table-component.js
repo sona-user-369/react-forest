@@ -46,6 +46,7 @@ class TableComponent extends React.Component{
         this.showEditor = this.showEditor.bind(this);
         this.save = this.save.bind(this);
         this.changeSearchState = this.changeSearchState.bind(this);
+        this.onChangeSearch = this.onChangeSearch.bind(this);
     }
 
     onColumnClick(e){
@@ -94,7 +95,17 @@ class TableComponent extends React.Component{
     }
 
     onChangeSearch(e){
+        const data = JSON.parse(JSON.stringify(this.state.data));
+        const cell = e.target.cellIndex;
+        console.log(e.target.cellIndex)
+        const data_value=data.map((row, idx)=>
+            row.filter((column, idy) => idy === cell ? column.includes(e.target.value) : false )
+        );
+        console.log(data_value);
 
+        this.setState({
+            data:data_value
+        })
     }
 
     save(e){
@@ -132,7 +143,7 @@ class TableComponent extends React.Component{
                 </tr>
                 </thead>
                 <tbody onDoubleClick={this.showEditor}>
-                {search ? <tr>
+                {search ? <tr onChange={this.onChangeSearch}>
                     {
                         this.props.headers.map(
                             (_, idx) => (
